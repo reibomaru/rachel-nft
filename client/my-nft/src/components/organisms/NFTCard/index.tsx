@@ -41,7 +41,11 @@ const NFTCard = (props: props) => {
       <p>url: {jsonUrl}</p>
       <p>name: {nftJson && nftJson.name}</p>
       <p>description: {nftJson && nftJson.description}</p>
-      {nftJson ? <img src={nftJson.image} alt="" /> : "image not found"}
+      {nftJson ? (
+        <img src={nftJson.image} alt={nftJson.name} style={{ height: 200 }} />
+      ) : (
+        "image not found"
+      )}
       <div>
         <button>
           <Link to={`/nfts/${props.token}`}>view detail</Link>
