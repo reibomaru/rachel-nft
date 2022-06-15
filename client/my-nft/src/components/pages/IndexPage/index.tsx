@@ -23,7 +23,7 @@ const IndexPage = () => {
   }, [contract, updateNFTs]);
   return (
     <>
-      <h2>List all NFTs</h2>
+      <h2>All NFTs</h2>
       {nftCards}
     </>
   );

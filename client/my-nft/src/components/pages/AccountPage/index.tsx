@@ -11,7 +11,7 @@ type nft = {
 
 const AccountPage = () => {
   const [nfts, setNfts] = useState<nft[]>([]);
-  const { contract } = useWeb3();
+  const { contract, account } = useWeb3();
   const { accountId } = useParams();
   const updateNFTs = useCallback(
     async (account: string, contract: Contract) => {
@@ -27,7 +27,7 @@ const AccountPage = () => {
   }, [accountId, contract, updateNFTs]);
   return (
     <>
-      <h2>List your NFTs</h2>
+      <h2>{accountId === account ? "Your" : `${accountId}'s`} NFTs</h2>
       {nfts.map((nft) => {
         return <NFTCard key={nft.token} token={nft.token} />;
       })}
