@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
+import { useParams, Link } from "react-router-dom";
 import { useWeb3 } from "../../organisms/Web3Provider";
 import { NFT } from "../../../models/nft";
 import TransferForm from "../../organisms/TransferForm";
@@ -46,7 +46,9 @@ const DetailPage = () => {
             <img src={nft.image} alt="" />
           </div>
           <p>description: {nft.description}</p>
-          <p>owner: {owner}</p>
+          <p>
+            owner: <Link to={`/${owner}`}>{owner}</Link>
+          </p>
           {owner === account && token && <TransferForm token={token} />}
         </>
       ) : (
