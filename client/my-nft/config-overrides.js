@@ -18,5 +18,6 @@ module.exports = function override(config) {
             Buffer: ['buffer', 'Buffer']
         })
     ])
+    config.ignoreWarnings = [/node_modules/]
     return config;
 }
