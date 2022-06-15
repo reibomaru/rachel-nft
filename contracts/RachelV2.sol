@@ -79,4 +79,8 @@ contract RachelV2 is Rachel, ERC721EnumerableUpgradeable {
         _mint(msg.sender, newItemId);
         _setTokenURI(newItemId, uri);
     }
+
+    function getCountOfAllNFTs() public view returns (uint256) {
+        return _tokenIds.current();
+    }
 }
