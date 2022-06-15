@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --write 'scripts/*.js' 'client/**/*.tsx' 'client/**/*.ts' contracts/*.sol",
-    "migrate-front": "cp -r artifacts/contracts client/my-nft/src"
+    "migrate-front": "rm -r client/my-nft/src/contracts; cp -r artifacts/contracts client/my-nft/src"
   },
   "author": "",
   "license": "ISC",
