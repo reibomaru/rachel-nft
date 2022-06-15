@@ -1,0 +1,12 @@
+# build
+artifacts/
+
+# cache
+cache/
+
+# openzeppelin
+.openzeppelin/
+node_modules
+
+# credential
+.env
