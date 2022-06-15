@@ -14,7 +14,10 @@ const Header = () => {
           <Link to={"/nfts/new"}>Mint NFT</Link>
         </li>
         <li>
-          <Link to={"/nfts"}>List your NFTs</Link>
+          <Link to={`/${account}`}>List your NFTs</Link>
+        </li>
+        <li>
+          <Link to={"/nfts"}>List all NFTs</Link>
         </li>
         <li>
           <Link to={"/"}>Home</Link>

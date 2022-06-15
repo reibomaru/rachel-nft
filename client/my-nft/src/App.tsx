@@ -5,6 +5,7 @@ import HomePage from "./components/pages/HomePage";
 import CreatePage from "./components/pages/CreatePage";
 import DetailPage from "./components/pages/DetailPage";
 import IndexPage from "./components/pages/IndexPage";
+import AccountPage from "./components/pages/AccountPage";
 import "./App.css";
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/nfts" element={<IndexPage />} />
           <Route path="/nfts/new" element={<CreatePage />} />
           <Route path="/nfts/:token" element={<DetailPage />} />
+          <Route path="/:accountId" element={<AccountPage />} />
         </Routes>
       </Web3Provider>
       <br />
