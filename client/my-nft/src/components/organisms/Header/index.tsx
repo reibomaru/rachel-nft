@@ -5,7 +5,7 @@ const Header = () => {
   const { web3, account, balance } = useWeb3();
   return (
     <>
-      <h1>my-nft</h1>
+      <h1>Rachel NFT</h1>
       your account: {account}
       <br />
       your balance: {web3.utils.fromWei(balance)} ETH
