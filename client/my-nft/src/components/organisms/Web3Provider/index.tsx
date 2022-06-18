@@ -1,11 +1,24 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import detectEthereumProvider from "@metamask/detect-provider";
 import Web3 from "web3";
 import { Contract } from "web3-eth-contract";
 import MyNFTV2 from "../../../contracts/RachelV2.sol/RachelV2.json";
+import {
+  CONTRACT_ADDRESS,
+  WEBSOCKET_HOST,
+  MUMBAI_CONTRACT_ADDRESS,
+  MUMBAI_WEBSOCKET_HOST,
+} from "../../../config";
 
 type web3Context = {
   web3: Web3;
+  chainId: number;
   contract: Contract;
   account: string;
   balance: string;
@@ -36,16 +49,32 @@ const Web3Provider = (props: web3ProviderProps) => {
     });
   }, []);
 
+  const selectContractAddress = useCallback((chainId: number) => {
+    console.log(chainId);
+    if (chainId === 5) {
+      return CONTRACT_ADDRESS;
+    } else if (chainId === 80001) {
+      return MUMBAI_CONTRACT_ADDRESS;
+    }
+  }, []);
+
+  const selectWebSocketHost = useCallback((chainId: number) => {
+    if (chainId === 5) {
+      return WEBSOCKET_HOST;
+    } else if (chainId === 80001) {
+      return MUMBAI_WEBSOCKET_HOST;
+    }
+  }, []);
+
   useEffect(() => {
     (async () => {
       const provider = await detectEthereumProvider({ mustBeMetaMask: true });
-      if (
-        provider &&
-        window.ethereum?.isMetaMask &&
-        process.env.REACT_APP_WEBSOCKET_HOST
-      ) {
+      if (provider && window.ethereum?.isMetaMask) {
         console.log("Welcome to MetaMask User🎉");
         const web3 = new Web3(Web3.givenProvider);
+        const chainId = await web3.eth.getChainId();
+        const contractAddress = selectContractAddress(chainId);
+        const webSocketHost = selectWebSocketHost(chainId);
 
         const accounts = await web3.eth.requestAccounts();
         const account = accounts[0];
@@ -54,31 +83,32 @@ const Web3Provider = (props: web3ProviderProps) => {
 
         const contract = new web3.eth.Contract(
           MyNFTV2.abi as any,
-          process.env.REACT_APP_CONTRACT_ADDRESS
+          contractAddress
         );
 
-        const provider = new Web3.providers.WebsocketProvider(
-          process.env.REACT_APP_WEBSOCKET_HOST
-        );
-        const web3EventListner = new Web3(provider);
+        if (webSocketHost) {
+          const provider = new Web3.providers.WebsocketProvider(webSocketHost);
+          const web3EventListner = new Web3(provider);
 
-        const _contract = new web3EventListner.eth.Contract(
-          MyNFTV2.abi as any,
-          process.env.REACT_APP_CONTRACT_ADDRESS
-        );
+          const _contract = new web3EventListner.eth.Contract(
+            MyNFTV2.abi as any,
+            CONTRACT_ADDRESS
+          );
 
-        setWeb3Obj({
-          web3: web3,
-          contract: contract,
-          account: account,
-          balance: balance,
-          events: _contract.events,
-        });
+          setWeb3Obj({
+            web3: web3,
+            chainId,
+            contract,
+            account,
+            balance,
+            events: _contract.events,
+          });
+        }
       } else {
         console.log("Please Install MetaMask🙇‍♂️");
       }
     })();
-  }, []);
+  }, [selectContractAddress, selectWebSocketHost]);
 
   return (
     <>
